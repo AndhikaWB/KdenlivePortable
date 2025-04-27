@@ -35,6 +35,8 @@ To simplify things, the launcher will just delete the conflicting directories if
 
 ### With Python
 
+Python is only needed if you want to use the speech recognition feature. You need a powerful PC to use it. The memory usage for the Whisper speech models can be seen [here](https://github.com/openai/whisper#available-models-and-languages). Currently, Kdenlive will only install the normal version of PyTorch, so you need to install CUDA separately to run it on the GPU. If you don't want to install CUDA, it's basically useless because the process will be very slow.
+
 Portable Python can be detected by editing the `PortablePythonDir` in `App\AppInfo\Launcher\KdenlivePortable.ini`. By default, this will point to `%PAL:CommonFilesDir%\Python`, which can be translated as `$EXEDIR\..\CommonFiles\Python`. This directory must contain `python.exe` directly in order to be recognized. You can download Portable Python from [WinPython](https://winpython.github.io/) (preferably the dot variant).
 
 Kdenlive will create a virtual environment when downloading the Python dependencies, this will be saved on `$EXEDIR\Data\Venv`. If the virtual environment suddenly can't be detected by Kdenlive (e.g. because you're running on a different PC), try changing the path in `$EXEDIR\Data\Venv\pyenv.cfg` file manually.
