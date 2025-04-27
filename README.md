@@ -6,6 +6,8 @@ Always run the app via `KdenlivePortable.exe` to make it portable, not `kdenlive
 
 I may not actively update the portable installer, but you can simply replace the files on `App\Kdenlive` with a newer Kdenlive release to update it. Feel free to open an issue too, I will update the installer if you need it.
 
+Windows blocking the portable installer? Right click the file, select "Properties", then "Unblock".
+
 ## Compatibility
 
 |App|Supported|
