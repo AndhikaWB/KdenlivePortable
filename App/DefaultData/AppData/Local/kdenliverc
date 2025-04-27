@@ -1,0 +1,14 @@
+[Recent Dirs]
+KdenliveClipFolder[$e]=$HOME/Videos,$HOME/Documents
+
+[env]
+defaultprojectfolder[$e]=$HOME/Videos
+mediainfopath[$e]=
+defaultimageapp=
+defaultaudioapp=
+glaxnimatePath=
+
+[speech]
+pipPath=
+pythonPath=
+usePythonVenv=true
