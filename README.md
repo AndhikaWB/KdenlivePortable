@@ -25,7 +25,7 @@ Copying the speech models and Python libraries will take a long time due to the 
 |Link|Target|
 |-|-|
 |`$PROFILE\.cache\whisper`|`$EXEDIR\Data\.cache\whisper`|
-|`%LOCALAPPDATA%\kdenlive\venv`|`$EXEDIR\Data\Venv`|
+|`$LOCALAPPDATA\kdenlive\venv`|`$EXEDIR\Data\Venv`|
 
 The logic behind this can be seen in the `Custom.nsh` file.
 
@@ -47,7 +47,7 @@ Kdenlive [recommends](https://docs.kdenlive.org/en/getting_started/configure_kde
 
 Download Glaxnimate manually from the [official site](https://glaxnimate.mattbas.org/download/) (the zip version), and configure the path using the Kdenlive in-app settings directly. Alternatively, you can uncomment the last few lines in `App\AppInfo\Launcher\KdenlivePortable.ini` file (this assumes you placed Glaxnimate on `%PAL:CommonFilesDir%\Glaxnimate`).
 
-You should only run Glaxnimate when Kdenlive Portable is running. If you do this correctly, Glaxnimate settings will also be moved to `$EXEDIR\Data\AppData\Roaming\Glaxnimate` when you close Kdenlive Portable.
+You should only run Glaxnimate when Kdenlive Portable is running. If you do this correctly, Glaxnimate data will also be moved to `$EXEDIR\Data\AppData\Roaming\Glaxnimate` when you close Kdenlive Portable.
 
 ## License
 
