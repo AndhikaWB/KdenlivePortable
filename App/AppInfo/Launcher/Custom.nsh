@@ -26,21 +26,56 @@ ${SegmentPre}
 
 ${SegmentPreExec}
 	; Delete the junctions in case of unclean app exit
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\Kdenlive\Venv""'
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\whisper""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\kdenlive\venv""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\kdenlive\venv-sam""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\pip-kdenlive-tmp-folder""'
 
-	; Create the junction for Python virtual environment
-	; Must be outside the "kdenlive" directory to avoid getting copied
-	CreateDirectory "$EXEDIR\Data\Venv"
-	nsExec::Exec '"$CmdPath" /C "mklink /J "$LOCALAPPDATA\Kdenlive\Venv" "$EXEDIR\Data\Venv""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\opencvmodels""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\speechmodels""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\sam2models""'
+
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\whisper""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\huggingface""'
+
+	; Create the junction for Python virtual environments and pip cache
+	CreateDirectory "$EXEDIR\Data\Link\AppData\Local\kdenlive\venv"
+	nsExec::Exec '"$CmdPath" /C "mklink /J "$LOCALAPPDATA\kdenlive\venv" "$EXEDIR\Data\Link\AppData\Local\kdenlive\venv""'
+
+	CreateDirectory "$EXEDIR\Data\Link\AppData\Local\kdenlive\venv-sam"
+	nsExec::Exec '"$CmdPath" /C "mklink /J "$LOCALAPPDATA\kdenlive\venv-sam" "$EXEDIR\Data\Link\AppData\Local\kdenlive\venv-sam""'
+
+	CreateDirectory "$EXEDIR\Data\Link\.cache\pip-kdenlive-tmp-folder"
+	nsExec::Exec '"$CmdPath" /C "mklink /J "$PROFILE\.cache\pip-kdenlive-tmp-folder" "$EXEDIR\Data\Link\.cache\pip-kdenlive-tmp-folder""'
+
+	; Create the junction for Kdenlive roaming models
+	CreateDirectory "$EXEDIR\Data\Link\AppData\Roaming\kdenlive\opencvmodels"
+	nsExec::Exec '"$CmdPath" /C "mklink /J "$APPDATA\kdenlive\opencvmodels" "$EXEDIR\Data\Link\AppData\Roaming\kdenlive\opencvmodels""'
+
+	CreateDirectory "$EXEDIR\Data\Link\AppData\Roaming\kdenlive\speechmodels"
+	nsExec::Exec '"$CmdPath" /C "mklink /J "$APPDATA\kdenlive\speechmodels" "$EXEDIR\Data\Link\AppData\Roaming\kdenlive\speechmodels""'
+
+	CreateDirectory "$EXEDIR\Data\Link\AppData\Roaming\kdenlive\sam2models"
+	nsExec::Exec '"$CmdPath" /C "mklink /J "$APPDATA\kdenlive\sam2models" "$EXEDIR\Data\Link\AppData\Roaming\kdenlive\sam2models""'
 
 	; Create the junction for Whisper speech models
-	CreateDirectory "$EXEDIR\Data\.cache\whisper"
-	nsExec::Exec '"$CmdPath" /C "mklink /J "$PROFILE\.cache\whisper" "$EXEDIR\Data\.cache\whisper""'
+	CreateDirectory "$EXEDIR\Data\Link\.cache\whisper"
+	nsExec::Exec '"$CmdPath" /C "mklink /J "$PROFILE\.cache\whisper" "$EXEDIR\Data\Link\.cache\whisper""'
+
+	; Create the junction for Hugging Face models
+	CreateDirectory "$EXEDIR\Data\Link\.cache\huggingface"
+	nsExec::Exec '"$CmdPath" /C "mklink /J "$PROFILE\.cache\huggingface" "$EXEDIR\Data\Link\.cache\huggingface""'
 !macroend
 
 ${SegmentPost}
 	; Delete the junctions again on app exit
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\Kdenlive\Venv""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\kdenlive\venv""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\kdenlive\venv-sam""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\pip-kdenlive-tmp-folder""'
+
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\opencvmodels""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\speechmodels""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\sam2models""'
+
 	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\whisper""'
+	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\huggingface""'
 !macroend

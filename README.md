@@ -12,7 +12,7 @@ Windows blocking the portable installer? Right click the file, select "Propertie
 
 |App|Supported|
 |-|-|
-|Kdenlive (non-portable)|No|
+|Kdenlive (non-portable)|Yes (with caution)|
 |Python|Yes|
 |Glaxnimate|Partially|
 
@@ -20,26 +20,30 @@ See the details below.
 
 ### With Non-Portable Kdenlive
 
-Copying the speech models and Python libraries will take a long time due to the big size. As a workaround, instead of copying files, Kdenlive Portable will create junctions (similar to symlink) for these directories:
+Copying the AI models and Python libraries will take a long time due to the big size. As a workaround, instead of copying files, Kdenlive Portable will create junctions (similar to symlink) for these directories:
 
 |Link|Target|
 |-|-|
-|`$PROFILE\.cache\whisper`|`$EXEDIR\Data\.cache\whisper`|
-|`$LOCALAPPDATA\kdenlive\venv`|`$EXEDIR\Data\Venv`|
+|`$PROFILE\.cache\whisper`|`$EXEDIR\Data\Link\.cache\whisper`|
+|`$LOCALAPPDATA\kdenlive\venv`|`$EXEDIR\Data\Link\AppData\Local\kdenlive\venv`|
+|`$APPDATA\kdenlive\sam2models`|`$EXEDIR\Data\Link\AppData\Roaming\kdenlive\sam2models`|
+|... (and so on)|...|
 
 The logic behind this can be seen in the `Custom.nsh` file.
 
 However, a junction can't be created if there is already a directory of the same name. Since I'm using `Custom.nsh` directly (instead of `KdenlivePortable.ini`), the directory backup mechanism is too much a hassle for me to implement manually.
 
-To simplify things, the launcher will just delete the conflicting directories if they existed, hence you SHOULD NOT use it together with a non-portable version of Kdenlive (unless you're okay with redownloading the files).
+To simplify things, the launcher will just delete the conflicting directories if they existed, ~~hence you SHOULD NOT use it together with a non-portable version of Kdenlive (unless you're okay with redownloading the files).~~
+
+Since Dev Test 2, this is already mitigated by adding the `$PROFILE\.cache` folder and `$*APPDATA\kdenlive` directory to `KdenlivePortable.ini`.
 
 ### With Python
 
-Python is only needed if you want to use the speech recognition feature. You need a powerful PC to use it. The memory usage for the Whisper speech models can be seen [here](https://github.com/openai/whisper#available-models-and-languages). Currently, Kdenlive will only install the normal version of PyTorch, so you need to install CUDA separately to run it on the GPU. If you don't want to install CUDA, it's basically useless because the process will be very slow.
+Python is only needed if you want to use the AI features. You may need a powerful PC to use it. For example, the memory usage for the Whisper speech models can be seen [here](https://github.com/openai/whisper#available-models-and-languages). You will also need to install CUDA for GPU support. If you don't want to install CUDA, it's basically useless because the process will be very slow.
 
 Portable Python can be detected by editing the `PortablePythonDir` in `App\AppInfo\Launcher\KdenlivePortable.ini`. By default, this will point to `%PAL:CommonFilesDir%\Python`, which can be translated as `$EXEDIR\..\CommonFiles\Python`. This directory must contain `python.exe` directly in order to be recognized. You can download Portable Python from [WinPython](https://winpython.github.io/) (preferably the dot variant).
 
-Kdenlive will create a virtual environment when downloading the Python dependencies, this will be saved on `$EXEDIR\Data\Venv`. If the virtual environment suddenly can't be detected by Kdenlive (e.g. because you're running on a different PC), try changing the path in `$EXEDIR\Data\Venv\pyenv.cfg` file manually.
+Kdenlive will create a virtual environment when downloading the Python dependencies, this will be saved on `$EXEDIR\Data\Link\AppData\Local\kdenlive\venv`. If the virtual environment suddenly can't be detected by Kdenlive (e.g. because you're running on a different PC), try changing the path in `pyenv.cfg` file manually.
 
 ### With Glaxnimate
 
@@ -47,7 +51,7 @@ Kdenlive [recommends](https://docs.kdenlive.org/en/getting_started/configure_kde
 
 Download Glaxnimate manually from the [official site](https://glaxnimate.mattbas.org/download/) (the zip version), and configure the path using the Kdenlive in-app settings directly. Alternatively, you can uncomment the last few lines in `App\AppInfo\Launcher\KdenlivePortable.ini` file (this assumes you placed Glaxnimate on `%PAL:CommonFilesDir%\Glaxnimate`).
 
-You should only run Glaxnimate when Kdenlive Portable is running. If you do this correctly, Glaxnimate data will also be moved to `$EXEDIR\Data\AppData\Roaming\Glaxnimate` when you close Kdenlive Portable.
+You SHOULD ONLY run Glaxnimate when Kdenlive Portable is running. If you do this correctly, Glaxnimate data will also be moved to `$EXEDIR\Data\AppData\Roaming\Glaxnimate` when you close Kdenlive Portable.
 
 ## License
 
