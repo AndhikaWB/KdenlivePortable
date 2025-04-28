@@ -3,7 +3,7 @@ ${SegmentFile}
 Var CmdPath
 Var PythonDir
 
-${SegmentPre}
+${SegmentPrePrimary}
 	; Command prompt executable for creating junction
 	ExpandEnvStrings "$CmdPath" "%COMSPEC%"
 
@@ -24,8 +24,8 @@ ${SegmentPre}
 	${EndIf}
 !macroend
 
-${SegmentPreExec}
-	; Delete the junctions in case of unclean app exit
+${SegmentPreExecPrimary}
+	; Delete existing junctions or directories
 	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\kdenlive\venv""'
 	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\kdenlive\venv-sam""'
 	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\pip-kdenlive-tmp-folder""'
@@ -66,16 +66,17 @@ ${SegmentPreExec}
 	nsExec::Exec '"$CmdPath" /C "mklink /J "$PROFILE\.cache\huggingface" "$EXEDIR\Data\Link\.cache\huggingface""'
 !macroend
 
-${SegmentPost}
-	; Delete the junctions again on app exit
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\kdenlive\venv""'
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$LOCALAPPDATA\kdenlive\venv-sam""'
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\pip-kdenlive-tmp-folder""'
+${SegmentPostPrimary}
+	; Delete junctions or empty directories if they still exists
+	; Unlike the previous one, non-empty directories won't be deleted
+	nsExec::Exec '"$CmdPath" /C "rmdir "$LOCALAPPDATA\kdenlive\venv""'
+	nsExec::Exec '"$CmdPath" /C "rmdir "$LOCALAPPDATA\kdenlive\venv-sam""'
+	nsExec::Exec '"$CmdPath" /C "rmdir "$PROFILE\.cache\pip-kdenlive-tmp-folder""'
 
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\opencvmodels""'
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\speechmodels""'
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$APPDATA\kdenlive\sam2models""'
+	nsExec::Exec '"$CmdPath" /C "rmdir "$APPDATA\kdenlive\opencvmodels""'
+	nsExec::Exec '"$CmdPath" /C "rmdir "$APPDATA\kdenlive\speechmodels""'
+	nsExec::Exec '"$CmdPath" /C "rmdir "$APPDATA\kdenlive\sam2models""'
 
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\whisper""'
-	nsExec::Exec '"$CmdPath" /C "rmdir /S /Q "$PROFILE\.cache\huggingface""'
+	nsExec::Exec '"$CmdPath" /C "rmdir "$PROFILE\.cache\whisper""'
+	nsExec::Exec '"$CmdPath" /C "rmdir "$PROFILE\.cache\huggingface""'
 !macroend
