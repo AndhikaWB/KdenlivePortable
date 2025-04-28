@@ -35,7 +35,7 @@ However, a junction can't be created if there is already a directory of the same
 
 To simplify things, the launcher will just delete the conflicting directories if they existed, ~~hence you SHOULD NOT use it together with a non-portable version of Kdenlive (unless you're okay with redownloading the files).~~
 
-Since Dev Test 2, this is already mitigated by adding the `$PROFILE\.cache` folder and `$*APPDATA\kdenlive` directory to `KdenlivePortable.ini`. However, the logic in the `Custom.nsh` file is still the same, so you should proceed with caution.
+Since Dev Test 3, this is already mitigated by adding the `$PROFILE\.cache` folder and `$*APPDATA\kdenlive` directory to `KdenlivePortable.ini`. However, the logic in the `Custom.nsh` file is still the same, so you should proceed with caution.
 
 ### With Python
 
