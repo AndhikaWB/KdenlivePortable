@@ -31,17 +31,17 @@ Copying the AI models and Python libraries will take a long time due to the big 
 
 The logic behind this can be seen in the `Custom.nsh` file.
 
-However, a junction can't be created if there is already a directory of the same name. Since I'm using `Custom.nsh` directly (instead of `KdenlivePortable.ini`), the directory backup mechanism is too much a hassle for me to implement manually.
+However, a junction can't be created if there is already a directory of the same name. Since I'm using `Custom.nsh` to create the junction directly (instead of `KdenlivePortable.ini`), the directory backup mechanism is too much a hassle for me to implement manually.
 
 To simplify things, the launcher will just delete the conflicting directories if they existed, ~~hence you SHOULD NOT use it together with a non-portable version of Kdenlive (unless you're okay with redownloading the files).~~
 
-Since Dev Test 3, this is already mitigated by adding the `$PROFILE\.cache` folder and `$*APPDATA\kdenlive` directory to `KdenlivePortable.ini`. However, the logic in the `Custom.nsh` file is still the same, so you should proceed with caution.
+Since Dev Test 3, this is already mitigated by adding the `$PROFILE\.cache` folder and `$*APPDATA\kdenlive` directory to `KdenlivePortable.ini`, so the launcher will backup those directories first. However, the logic behind the `Custom.nsh` file is still the same, so you should proceed with caution.
 
 ### With Python
 
 Python is only needed if you want to use the AI features. You may need a powerful PC to use it. For example, the memory usage for the Whisper speech models can be seen [here](https://github.com/openai/whisper#available-models-and-languages). You will also need to install CUDA for GPU support. If you don't want to install CUDA, it's basically useless because the process will be very slow.
 
-Portable Python can be detected by editing the `PortablePythonDir` in `App\AppInfo\Launcher\KdenlivePortable.ini`. By default, this will point to `%PAL:CommonFilesDir%\Python`, which can be translated as `$EXEDIR\..\CommonFiles\Python`. This directory must contain `python.exe` directly in order to be recognized. You can download Portable Python from [WinPython](https://winpython.github.io/) (preferably the dot variant).
+Portable Python can be detected by editing the `PortablePythonDir` line in `App\AppInfo\Launcher\KdenlivePortable.ini`. By default, this will point to `%PAL:CommonFilesDir%\Python`, which can be translated as `$EXEDIR\..\CommonFiles\Python`. This directory must contain `python.exe` directly in order to be recognized. You can download Portable Python from [WinPython](https://winpython.github.io/) (preferably the dot variant).
 
 Kdenlive will create a virtual environment when downloading the Python dependencies, this will be saved on `$EXEDIR\Data\Link\AppData\Local\kdenlive\venv`. If the virtual environment suddenly can't be detected by Kdenlive (e.g. because you're running on a different PC), try changing the path in `pyenv.cfg` file manually.
 
